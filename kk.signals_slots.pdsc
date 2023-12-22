@@ -45,6 +45,6 @@
 
   <!-- optional taxonomy section for defining new component Class and Group names -->
   <taxonomy>
-    <description Cclass="Software" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A circular queue library written in C that supports arbitrary types.</description>
+    <description Cclass="WALI_FrameWork" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A circular queue library written in C that supports arbitrary types.</description>
   </taxonomy>
 </package>
