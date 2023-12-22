@@ -3,7 +3,7 @@
 <package schemaVersion="1.7.28" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.28/schema/PACK.xsd">
   <vendor>kk</vendor>
   <name>signals_slots</name>
-  <description>A circular queue library written in C that supports arbitrary types.</description>
+  <description>A signal and slot module implemented in C language.</description>
   <url>https://github.com/Aladdin-Wang/signals_slots/</url>
   <supportContact>https://github.com/Aladdin-Wang/signals_slots/issues</supportContact>
   <license>LICENSE</license>
@@ -34,7 +34,7 @@
   <components>
     <!-- signals_slots 组件 -->
     <component Cclass="WALI_FrameWork" Cversion="1.0.0" Cgroup="signals_slots" >
-      <description>A circular queue library written in C that supports arbitrary types.</description>
+      <description>A signal and slot module implemented in C language.</description>
       <files>
         <file category="header" name="signals_slots.h"/>
         <file category="sourceC" name="signals_slots.c"/>
@@ -45,6 +45,6 @@
 
   <!-- optional taxonomy section for defining new component Class and Group names -->
   <taxonomy>
-    <description Cclass="WALI_FrameWork" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A circular queue library written in C that supports arbitrary types.</description>
+    <description Cclass="WALI_FrameWork" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A signal and slot module implemented in C language.</description>
   </taxonomy>
 </package>
