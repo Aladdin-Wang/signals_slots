@@ -17,7 +17,7 @@
 
 #ifndef __SIGNALS_SLOTS_H_
 #define __SIGNALS_SLOTS_H_
-#include ".\app_cfg.h"
+
 #if USE_SERVICE_SIGNALS_SLOTS == ENABLED
 #include <stdint.h>
 #include <string.h>

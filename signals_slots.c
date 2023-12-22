@@ -15,7 +15,7 @@
 *                                                                           *
 ****************************************************************************/
 
-#include "wl_signals_slots.h"
+#include "signals_slots.h"
 /* 
  * Function: direct_connect
  * Description: Establishes a direct connection between a signal and slot.
