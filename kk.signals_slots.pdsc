@@ -33,7 +33,7 @@
 	
   <components>
     <!-- signals_slots 组件 -->
-    <component Cclass="WALI_FrameWork" Cversion="1.0.1" Cgroup="signals_slots" ">
+    <component Cclass="WALI_FrameWork" Cversion="1.0.0" Cgroup="signals_slots" ">
       <description>A circular queue library written in C that supports arbitrary types.</description>
       <files>
         <file category="header" name="signals_slots.h"/>
