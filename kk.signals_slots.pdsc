@@ -3,7 +3,7 @@
 <package schemaVersion="1.7.28" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/v1.7.28/schema/PACK.xsd">
   <vendor>kk</vendor>
   <name>signals_slots</name>
-  <description>A signal and slot module implemented in C language.</description>
+  <description>A circular queue library written in C that supports arbitrary types.</description>
   <url>https://github.com/Aladdin-Wang/signals_slots/</url>
   <supportContact>https://github.com/Aladdin-Wang/signals_slots/issues</supportContact>
   <license>LICENSE</license>
@@ -21,20 +21,20 @@
     <!-- automatically generated content, please do not modify -->
     <release date="2023-12-22" version="1.0.0" tag="1.0.0" >
       Initial release of signals_slots.
-    </release>
+    </release>	
   </releases>
 
   <keywords>
     <!-- keywords for indexing -->
-    <keyword>QT Signals Slots</keyword>
+    <keyword>QT signals slots</keyword>
     <keyword>C Language</keyword>
     <keyword>Data Structures</keyword>
   </keywords>
-	
+  
   <components>
     <!-- signals_slots 组件 -->
-    <component Cclass="WALI_FrameWork" Cversion="1.0.0" Cgroup="signals_slots" ">
-      <description>A signal and slot module implemented in C language.</description>
+    <component Cclass="WALI_FrameWork" Cversion="1.0.0" Cgroup="signals_slots" >
+      <description>A circular queue library written in C that supports arbitrary types.</description>
       <files>
         <file category="header" name="signals_slots.h"/>
         <file category="sourceC" name="signals_slots.c"/>
