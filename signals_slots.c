@@ -49,7 +49,7 @@ bool direct_connect(sig_slot_t *SenderObj, const char *ptSender,void *RecObj,voi
         }
         /*Support connecting one signal to multiple slot functions or multiple signals to one slot function.*/
         if(strcmp(ptMetaObj->chSenderName,ptSender) == 0 || strlen(ptMetaObj->chSenderName) > 0){
-           sig_slot_t * ptSenderObj = malloc(sizeof(struct sig_slot_t));
+           sig_slot_t * ptSenderObj = (sig_slot_t * )malloc(sizeof(struct sig_slot_t));
            if(ptSenderObj == NULL){
                return false;
            }
