@@ -1,5 +1,5 @@
 /****************************************************************************
-*  Copyright 2022 KK (https://github.com/Aladdin-Wang)                                    *
+*  Copyright 2022 kk (https://github.com/Aladdin-Wang)                                    *
 *                                                                           *
 *  Licensed under the Apache License, Version 2.0 (the "License");          *
 *  you may not use this file except in compliance with the License.         *
@@ -15,10 +15,9 @@
 *                                                                           *
 ****************************************************************************/
 
-#ifndef __SIGNALS_SLOTS_H_
-#define __SIGNALS_SLOTS_H_
+#ifndef __SERVE_SIGNALS_SLOTS_H_
+#define __SERVE_SIGNALS_SLOTS_H_
 
-#if USE_SERVICE_SIGNALS_SLOTS == ENABLED
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
@@ -31,19 +30,19 @@
             direct_connect(__SIG_OBJ.tObject,__SIG_NAME,__SLOT_OBJ,__SLOT_FUN)
   example：
   connect(&tCanMsgObj,SIGNAL(send_sig),&s_tFIFOin,SLOT(enqueue_bytes));
-  
+
 
   //定义信号
-  signals(__NAME,__OBJ,...) 
+  signals(__NAME,__OBJ,...)
   example：
   signals(send_sig,can_data_msg_t *ptThis,
-      args(              
+      args(
             uint8_t *pchByte,
             uint16_t hwLen
           ));
   //发送信号
-   emit(__NAME,__OBJ,...) 
-   example：  
+   emit(__NAME,__OBJ,...)
+   example：
    emit(send_sig,&tCanMsgObj,
       args(
             tCanMsgObj.CanDATA.B,
@@ -73,15 +72,15 @@
 
 #ifndef __PLOOC_VA_NUM_ARGS_IMPL
 #   define __PLOOC_VA_NUM_ARGS_IMPL( _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,_11,     \
-                                    _12,_13,_14,_15,_16,__N,...)      __N
+                                     _12,_13,_14,_15,_16,__N,...)      __N
 #endif
 
 #ifndef __PLOOC_VA_NUM_ARGS
 #define __PLOOC_VA_NUM_ARGS(...)                                                \
-            __PLOOC_VA_NUM_ARGS_IMPL( 0,##__VA_ARGS__,16,15,14,13,12,11,10,9,   \
-                                      8,7,6,5,4,3,2,1,0)
+    __PLOOC_VA_NUM_ARGS_IMPL( 0,##__VA_ARGS__,16,15,14,13,12,11,10,9,   \
+                              8,7,6,5,4,3,2,1,0)
 #endif
-                                  
+
 #undef __CONNECT2
 #undef CONNECT2
 #undef __CONNECT3
@@ -94,88 +93,107 @@
 #define CONNECT2(__A, __B)                __CONNECT2(__A, __B)
 
 #ifndef SAFE_NAME
-#define SAFE_NAME(__NAME)   CONNECT3(__,__NAME,__LINE__)
+    #define SAFE_NAME(__NAME)   CONNECT3(__,__NAME,__LINE__)
 #endif
-
 
 #define  args(...)            ,__VA_ARGS__
 
 #define _args(...)            __VA_ARGS__
 
 #define __RecFun_0(__OBJ)                         \
-            __RecFun((__OBJ))
+    __RecFun((__OBJ))
 
 #define __RecFun_1(__OBJ, __ARG1)                     \
-            __RecFun((__OBJ),(__ARG1))
+    __RecFun((__OBJ),(__ARG1))
 
 #define __RecFun_2(__OBJ, __ARG1, __ARG2)                  \
-            __RecFun((__OBJ),(__ARG1), (__ARG2))
+    __RecFun((__OBJ),(__ARG1), (__ARG2))
 
 #define __RecFun_3(__OBJ, __ARG1, __ARG2, __ARG3)                \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3))                         
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3))
 
 #define __RecFun_4(__OBJ, __ARG1, __ARG2, __ARG3, __ARG4)               \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4))    
-            
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4))
+
 #define __RecFun_5(__OBJ, __ARG1, __ARG2, __ARG3, __ARG4, __ARG5)                \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5))  
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5))
 
 #define __RecFun_6(__OBJ, __ARG1, __ARG2, __ARG3, __ARG4, __ARG5, __ARG6)                \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6)) 
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6))
 
 #define __RecFun_7(__OBJ, __ARG1, __ARG2, __ARG3, __ARG4, __ARG5, __ARG6, __ARG7)                \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6), (__ARG7)) 
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6), (__ARG7))
 
 #define __RecFun_8(__OBJ, __ARG1, __ARG2, __ARG3, __ARG4, __ARG5, __ARG6, __ARG7, __ARG8)                \
-            __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6), (__ARG7), (__ARG8)) 
- 
-            
+    __RecFun((__OBJ),(__ARG1), (__ARG2), (__ARG3), (__ARG4), (__ARG5), (__ARG6), (__ARG7), (__ARG8))
+
+
 #define __signals(__NAME,...)                                    \
-             typedef void CONNECT2(__NAME,_fun_t)( __VA_ARGS__);  
+    typedef void CONNECT2(__NAME,_fun_t)( __VA_ARGS__);
 
 #define signals(__NAME,__OBJ,...)               \
-          __signals(__NAME,_args(__OBJ __VA_ARGS__))
+    __signals(__NAME,_args(__OBJ __VA_ARGS__))
 
 #define __emit(__OBJ,...) \
-   		   CONNECT2(__RecFun_,__PLOOC_VA_NUM_ARGS(__VA_ARGS__))              \
-                   ((__OBJ)->ptRecObj,##__VA_ARGS__); 
+    CONNECT2(__RecFun_,__PLOOC_VA_NUM_ARGS(__VA_ARGS__))              \
+    ((__OBJ)->pReceiver,##__VA_ARGS__);
 
 #define emit(__NAME,__OBJ,...)                     \
-           do {sig_slot_t *ptObj = &((__OBJ)->tObject);                \
-               do{if(__OBJ == NULL || ptObj == NULL ) break;              \
-		           CONNECT2(__NAME,_fun_t) *__RecFun = ptObj->ptRecFun;   \
-                   if(__RecFun != NULL && strcmp(ptObj->chSenderName,SIGNAL(__NAME)) == 0) \
-					   __emit(ptObj __VA_ARGS__);         \
-                   ptObj = ptObj->ptNext;             \
-               }while(ptObj != NULL);              \
-           }while(0)
+    do {sig_slot_t *ptObj = &((__OBJ)->tObject);                \
+        do{if(__OBJ == NULL || ptObj == NULL ) break;              \
+            CONNECT2(__NAME,_fun_t) *__RecFun = ptObj->pMethod;   \
+            if(__RecFun != NULL && strcmp(ptObj->pchSignal,SIGNAL(__NAME)) == 0) \
+                __emit(ptObj __VA_ARGS__);         \
+            ptObj = ptObj->ptNext;             \
+        }while(ptObj != NULL);              \
+    }while(0)
 
 #define __slots(__NAME,...)             \
-            void __NAME(__VA_ARGS__);
-            
+    void __NAME(__VA_ARGS__);
+
 #define slots(__NAME,__OBJ,...)  \
-            __slots(__NAME,_args(__OBJ,##__VA_ARGS__))
+    __slots(__NAME,_args(__OBJ,##__VA_ARGS__))
 
-#define connect(__SIG_OBJ,__SIG_NAME,__SLOT_OBJ,__SLOT_FUN)    \
-            direct_connect(__SIG_OBJ.tObject,__SIG_NAME,__SLOT_OBJ,__SLOT_FUN)
+#define connect(__SENDER,__SIGNAL,__RECEIVR,__METHOD)    \
+    direct_connect(__SENDER.tObject,__SIGNAL,__RECEIVR,__METHOD)
 
-#define disconnect(__SIG_OBJ,__SIG_NAME)    \
-            auto_disconnect(__SIG_OBJ.tObject,__SIG_NAME)
+#define disconnect(__SENDER,__SIGNAL,__RECEIVR,__METHOD)    \
+    auto_disconnect(__SENDER.tObject,__SIGNAL,__RECEIVR,__METHOD)
 
 
 typedef struct sig_slot_t sig_slot_t;
-typedef struct sig_slot_t{
-	char   chSenderName[SIG_NAME_MAX];
-    void * ptSenderObj;  
-	void * ptRecObj;
-	void * ptRecFun;
-    sig_slot_t *ptNext;
-    sig_slot_t *ptPrev;
-}sig_slot_t;
+typedef struct sig_slot_t {
+    char pchSignal[SIG_NAME_MAX];// Array storing the name of the signal
+    void *pReceiver;             // Pointer to the object  receiving the signal
+    void *pMethod;               // Pointer to the method or function connected to the signal
+    struct sig_slot_t *ptNext;   // Pointer to the next node in the linked list of signal-slot connections
+    struct sig_slot_t *ptPrev;   // Pointer to the previous node in the linked list of signal-slot connections
+} sig_slot_t;
 
-bool direct_connect(sig_slot_t *ptSenderObj, const char *ptSender,void *ptRecObj,void *ptRecFun);
-void auto_disconnect(sig_slot_t *ptSenderObj, const char *ptSender);
+/**
+ * Function: bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod)
+ * Description: Connects a signal to a slot function in a signal-slot system.
+ * Parameters:
+ *   - ptSender: Pointer to the signal object from which the signal is emitted.
+ *   - pchSignal: The name of the signal to be connected.
+ *   - pReceiver: Pointer to the object that will receive the signal.
+ *   - pMethod: Pointer to the method or function to be called when the signal is emitted.
+ * Returns:
+ *   - true: Connection successful.
+ *   - false: Connection failed (if any of the input parameters is NULL or memory allocation fails).
+ */
+bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod);
 
+/**
+ * Function: void auto_disconnect(sig_slot_t *ptSender, const char *pchSignal)
+ * Description: Disconnects all signal-slot connections associated with a specific signal.
+ * Parameters:
+ *   - ptSender: Pointer to the signal object from which the signal is emitted.
+ *   - pchSignal: The name of the signal to be connected.
+ *   - pReceiver: Pointer to the object that will receive the signal.
+ *   - pMethod: Pointer to the method or function to be called when the signal is emitted.
+ * Returns: void
+ */
+void auto_disconnect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod);
 
-#endif
-#endif /* QUEUE_QUEUE_H_ */
+#endif 

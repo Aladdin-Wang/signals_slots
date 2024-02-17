@@ -1,5 +1,5 @@
 /****************************************************************************
-*  Copyright 2022 KK (https://github.com/Aladdin-Wang)                                    *
+*  Copyright 2022 kk (https://github.com/Aladdin-Wang)                                    *
 *                                                                           *
 *  Licensed under the Apache License, Version 2.0 (the "License");          *
 *  you may not use this file except in compliance with the License.         *
@@ -16,85 +16,136 @@
 ****************************************************************************/
 
 #include "signals_slots.h"
-/* 
- * Function: direct_connect
- * Description: Establishes a direct connection between a signal and slot.
+/*
+ * Function: bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod)
+ * Description: Connects a signal to a slot function in a signal-slot system.
  * Parameters:
- *   - SenderObj: Pointer to the signal-slot object.
- *   - ptSender: Name of the sender.
- *   - RecObj: Pointer to the receiver object.
- *   - RecFun: Pointer to the receiver function.
- * Returns: Returns true if the connection is successful, otherwise returns false.
+ *   - ptSender: Pointer to the signal object from which the signal is emitted.
+ *   - pchSignal: The name of the signal to be connected.
+ *   - pReceiver: Pointer to the object that will receive the signal.
+ *   - pMethod: Pointer to the method or function to be called when the signal is emitted.
+ * Returns:
+ *   - true: Connection successful.
+ *   - false: Connection failed (if any of the input parameters is NULL or memory allocation fails).
  */
-bool direct_connect(sig_slot_t *SenderObj, const char *ptSender,void *RecObj,void *RecFun)
+bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod)
 {
-    if(SenderObj == NULL || ptSender == NULL || RecObj == NULL || RecFun == NULL){
+    /* Check if any of the input parameters is NULL */
+    if (ptSender == NULL || pchSignal == NULL || pReceiver == NULL || pMethod == NULL) {
         return false;
     }
-	/* Create a pointer to the metadata of the signal-slot object */
-    sig_slot_t * ptMetaObj = SenderObj;
-    do{
-		/*Allow signals to be connected to other signals.*/
-        if(strstr(RecFun,"sig_")){
-            memcpy(ptMetaObj->chSenderName,ptSender,strlen(ptSender)); 
-            while(ptMetaObj->ptNext != NULL){
-                ptMetaObj = ptMetaObj->ptNext;
+
+    /* Create a pointer to the metadata of the signal-slot object */
+    sig_slot_t *ptMetaObj = ptSender;
+
+    do {
+        if(ptMetaObj->ptNext == NULL) {
+            /* Allocate memory for a new signal object */
+            sig_slot_t *ptNewSender = (sig_slot_t *)malloc(sizeof(struct sig_slot_t));
+
+            /* Check if memory allocation is successful */
+            if (ptNewSender == NULL) {
+                return false;
             }
-            ptMetaObj->ptNext = RecObj; 
-            ptMetaObj->ptNext->ptPrev = ptMetaObj;          
+
+            memset(ptNewSender, 0, sizeof(struct sig_slot_t));
+            ptMetaObj->ptNext = ptNewSender;
+            ptMetaObj->ptNext->ptPrev = ptMetaObj;
+        }
+
+        ptMetaObj = ptMetaObj->ptNext;
+
+        /* Support connecting one signal to multiple slot functions or multiple signals to one slot function */
+        if (strcmp(ptMetaObj->pchSignal, pchSignal) == 0 || strlen(ptMetaObj->pchSignal) > 0) {
+            /* Allocate memory for a new signal object */
+            sig_slot_t *ptNewSender = (sig_slot_t *)malloc(sizeof(struct sig_slot_t));
+
+            /* Check if memory allocation is successful */
+            if (ptNewSender == NULL) {
+                return false;
+            }
+
+            memset(ptNewSender, 0, sizeof(struct sig_slot_t));
+
+            /* Check for duplicate connections */
+            if(strcmp(ptMetaObj->pchSignal, pchSignal) == 0 && ptMetaObj->pReceiver == pReceiver &&
+               ptMetaObj->pMethod == pMethod) {
+                return false;
+            }
+
+            /* Traverse to the end of the signal-slot list */
+            while (ptMetaObj != NULL && ptMetaObj->ptNext != NULL) {
+                ptMetaObj = ptMetaObj->ptNext;
+
+                /* Check for duplicate connections */
+                if(strcmp(ptMetaObj->pchSignal, pchSignal) == 0 && ptMetaObj->pReceiver == pReceiver &&
+                   ptMetaObj->pMethod == pMethod) {
+                    return false;
+                }
+            }
+
+            /* Connect the new signal object to the list */
+            ptMetaObj->ptNext = ptNewSender;
+            ptMetaObj->ptNext->ptPrev = ptMetaObj;
             ptMetaObj = ptMetaObj->ptNext;
-           
-            memcpy(ptMetaObj->chSenderName,RecFun,strlen(RecFun));  
-            break;            
         }
-        /*Support connecting one signal to multiple slot functions or multiple signals to one slot function.*/
-        if(strcmp(ptMetaObj->chSenderName,ptSender) == 0 || strlen(ptMetaObj->chSenderName) > 0){
-           sig_slot_t * ptSenderObj = (sig_slot_t * )malloc(sizeof(struct sig_slot_t));
-           if(ptSenderObj == NULL){
-               return false;
-           }
-           while(ptMetaObj->ptNext != NULL){
-               ptMetaObj = ptMetaObj->ptNext;
-           }
-           ptMetaObj->ptNext = ptSenderObj;
-           ptMetaObj->ptNext->ptPrev = ptMetaObj;  
-           ptMetaObj = ptMetaObj->ptNext; 	   
-        }
-		ptMetaObj->ptRecFun = RecFun;
-		ptMetaObj->ptRecObj = RecObj;
-		memcpy(ptMetaObj->chSenderName,ptSender,strlen(ptSender));         
-    }while(0);
+
+        /* Set the method, receiver, and signal for the current metadata object */
+        ptMetaObj->pMethod = pMethod;
+        ptMetaObj->pReceiver = pReceiver;
+        memcpy(ptMetaObj->pchSignal, pchSignal, strlen(pchSignal));
+
+    } while (0);
+
+    /* Connection successful */
     return true;
 }
 
-/*
- * Function: auto_disconnect
- * Description: Disconnects a signal and frees associated memory.
+/**
+ * Function: void auto_disconnect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod)
+ * Description: Removes a connection between a signal and a slot function in a signal-slot system.
  * Parameters:
- *   - ptSenderObj: Pointer to the signal-slot object.
- *   - ptSender: Name of the sender.
+ *   - ptSender: Pointer to the signal object from which the signal is emitted.
+ *   - pchSignal: The name of the signal to be disconnected.
+ *   - pReceiver: Pointer to the object or function that is currently connected to the signal.
+ *   - pMethod: Pointer to the method or function that is currently connected to the signal.
+ * Returns: void
  */
-void auto_disconnect(sig_slot_t *ptSenderObj, const char *ptSender)
+void auto_disconnect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver, void *pMethod)
 {
-    if(ptSenderObj == NULL || ptSender == NULL){
+    /* Check if any of the input parameters is NULL */
+    if (ptSender == NULL || pchSignal == NULL || pReceiver == NULL || pMethod == NULL) {
         return;
     }
-    sig_slot_t * ptMetaObj = ptSenderObj;
-	if(strcmp(ptMetaObj->chSenderName,ptSender) == 0){
-	   while(ptMetaObj->ptNext != NULL){
-		   ptMetaObj = ptMetaObj->ptNext;
-	   }
- 
-       while(ptMetaObj != NULL){
-           ptMetaObj->ptNext = NULL;
-           memset(ptMetaObj->chSenderName,0,sizeof(ptMetaObj->chSenderName));
-           if(ptMetaObj->ptRecFun != NULL){
-               ptMetaObj->ptRecObj = NULL;
-               ptMetaObj->ptRecFun = NULL;
-               sig_slot_t * ptObj = ptMetaObj;
-               free(ptObj);
-           }
-           ptMetaObj = ptMetaObj->ptPrev;
-       }
-	}
+
+    /* Create a pointer to the metadata of the signal-slot object */
+    sig_slot_t *ptMetaObj = ptSender;
+
+    do {
+        /* Traverse the signal-slot list */
+        while (ptMetaObj != NULL) {
+            /* Check if the current metadata object matches the specified signal, receiver, and method */
+            if (strcmp(ptMetaObj->pchSignal, pchSignal) == 0 &&
+                ptMetaObj->pReceiver == pReceiver &&
+                ptMetaObj->pMethod == pMethod) {
+                /* Disconnect the signal from the slot function */
+                if (ptMetaObj->ptPrev != NULL) {
+                    ptMetaObj->ptPrev->ptNext = ptMetaObj->ptNext;
+                }
+
+                if (ptMetaObj->ptNext != NULL) {
+                    ptMetaObj->ptNext->ptPrev = ptMetaObj->ptPrev;
+                }
+
+                memset(ptMetaObj, 0, sizeof(struct sig_slot_t));
+                free(ptMetaObj);
+                /* Exit the loop */
+                break;
+            }
+
+            /* Move to the next metadata object in the list */
+            ptMetaObj = ptMetaObj->ptNext;
+        }
+    } while (0);
 }
+
