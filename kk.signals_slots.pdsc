@@ -33,7 +33,7 @@
   
   <components>
     <!-- signals_slots 组件 -->
-    <component Cclass="WALI_FrameWork" Cversion="1.0.0" Cgroup="signals_slots" >
+    <component Cclass="FrameWork" Cversion="1.0.0" Cgroup="signals_slots" >
       <description>A signal and slot module implemented in C language.</description>
       <files>
         <file category="header" name="signals_slots.h"/>
@@ -45,6 +45,6 @@
 
   <!-- optional taxonomy section for defining new component Class and Group names -->
   <taxonomy>
-    <description Cclass="WALI_FrameWork" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A signal and slot module implemented in C language.</description>
+    <description Cclass="FrameWork" Cgroup="signals_slots" doc="documents/Doxygen/html/index.html">A signal and slot module implemented in C language.</description>
   </taxonomy>
 </package>
