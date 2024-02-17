@@ -19,6 +19,10 @@
       Active development ...
     </release>
     <!-- automatically generated content, please do not modify -->
+    <release date="2024-02-17" version="1.0.1" tag="1.0.1" >
+      Support connecting one signal to multiple slot functions or multiple signals to one slot function.
+    </release>		
+    <!-- automatically generated content, please do not modify -->
     <release date="2023-12-22" version="1.0.0" tag="1.0.0" >
       Initial release of signals_slots.
     </release>	
@@ -26,14 +30,14 @@
 
   <keywords>
     <!-- keywords for indexing -->
-    <keyword>QT signals slots</keyword>
+    <keyword>signals slots</keyword>
     <keyword>C Language</keyword>
     <keyword>Data Structures</keyword>
   </keywords>
   
   <components>
     <!-- signals_slots 组件 -->
-    <component Cclass="FrameWork" Cversion="1.0.0" Cgroup="signals_slots" >
+    <component Cclass="FrameWork" Cversion="1.0.1" Cgroup="signals_slots" >
       <description>A signal and slot module implemented in C language.</description>
       <files>
         <file category="header" name="signals_slots.h"/>
