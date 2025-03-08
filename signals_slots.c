@@ -69,7 +69,8 @@ bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver
 
             /* Check for duplicate connections */
             if(strcmp(ptMetaObj->pchSignal, pchSignal) == 0 && ptMetaObj->pReceiver == pReceiver &&
-               ptMetaObj->pMethod == pMethod) {
+                ptMetaObj->pMethod == pMethod) {
+                free(ptNewSender);				   
                 return false;
             }
 
@@ -79,7 +80,8 @@ bool direct_connect(sig_slot_t *ptSender, const char *pchSignal, void *pReceiver
 
                 /* Check for duplicate connections */
                 if(strcmp(ptMetaObj->pchSignal, pchSignal) == 0 && ptMetaObj->pReceiver == pReceiver &&
-                   ptMetaObj->pMethod == pMethod) {
+                    ptMetaObj->pMethod == pMethod) {
+                    free(ptNewSender);					   
                     return false;
                 }
             }
